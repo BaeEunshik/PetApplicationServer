@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"      
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.petApplication.dao.Dao">
+
+<insert id="insertMember">
+insert into member values(member_seq.nextval,#{param1},#{param2},#{param3})
+</insert>
+<insert id="submitStore">
+insert into store values(store_seq.nextval,#{name},#{contact},#{dog_size},#{store_information},#{operation_day},#{operation_time},#{parking},#{reservation},#{address},#{sigungu},#{latitude},#{longitude},#{category},#{hit},#{score_sum},#{score_count},#{member_id})
+<selectKey keyProperty="id" resultType="long" order="AFTER">
+	select store_seq.currval from dual<!-- dual은 무슨 의미?  -->
+	</selectKey>
+</insert>
+<insert id="insertStoreImage">
+insert into imagefile values(imagefile_seq.nextval,#{param1},#{param2},#{param3})
+</insert>
+<insert id="insertReview">
+insert into review values(review_seq.nextval,#{param1},#{param2},#{param3},#{param4})
+</insert>
+<insert id="insertBookMark">
+insert into bookmark values(bookmark_seq.nextval,#{param1},#{param2})
+</insert>
+
+<select id="isAlreadyJoined" resultType="Integer">
+select count(*) from member where login_id=#{param1}
+</select>
+<select id="isIdPwRight" resultType="kr.co.petApplication.dto.Member">
+select * from member where login_id=#{param1} and login_pw=#{param2}
+</select>
+<select id="getStoreById" resultType="kr.co.petApplication.dto.Store">
+select * from store where id=#{param1}
+</select>
+<select id="getImageByStoreId" resultType="kr.co.petApplication.dto.ImageFile">
+select * from imagefile where store_id=#{param1}
+</select>
+<select id="getStoreGeneral" resultType="kr.co.petApplication.dto.Store">
+	select * from store where dog_size <![CDATA[>=]]> #{param2}
+		<if test="param1 != 0">
+			and sigungu=#{param1}
+		</if>
+		<choose>
+			<when test="param3 != 0">
+				and category=#{param3}
+			</when>
+			<otherwise>
+				and category <![CDATA[<]]> 100
+			</otherwise>
+		</choose>
+</select>
+
+<select id="getStoreSpecial" resultType="kr.co.petApplication.dto.Store">
+	select * from store where dog_size <![CDATA[>=]]> #{param2}
+		<if test="param1 != 0">
+			and sigungu=#{param1}
+		</if>
+		<choose>
+			<when test="param3 != 100">
+				and category=#{param3}
+			</when>
+			<otherwise>
+				and category <![CDATA[>]]> 100
+			</otherwise>
+		</choose>
+</select>
+
+<select id="getStoreForMap" resultType="kr.co.petApplication.dto.Store">
+	select * from store 
+</select>
+<select id="getStoreImage" resultType="kr.co.petApplication.dto.ImageFile">
+select * from imagefile
+</select>
+<select id="getReviewById" resultType="kr.co.petApplication.dto.Review">
+select * from review where store_id=#{param1}
+</select>
+<select id="getMemberByReview" resultType="kr.co.petApplication.dto.Member">
+select * from member where id=#{param1}
+</select>
+<select id="getBookMarkList" resultType="kr.co.petApplication.dto.Bookmark">
+select * from bookmark where store_id=#{param1} and member_id=#{param2}
+</select>
+<select id="getBookmarkStoreId" resultType="kr.co.petApplication.dto.Bookmark">
+select * from bookmark where member_id=#{param1}
+</select>
+<select id="getMemberStore" resultType="kr.co.petApplication.dto.Store">
+select * from store where member_id=#{param1}
+</select>
+
+<update id="updateStoreHit">
+update store set hit=hit+1 where id=#{param1}
+</update>
+<update id="updateStoreScore">
+update store set score_sum=score_sum+#{param2}, score_count=score_count+1 where id=#{param1}
+</update>
+
+<delete id="deleteBookMark">
+delete from bookmark where store_id=#{param1} and member_id=#{param2}
+</delete>
+
+</mapper>
