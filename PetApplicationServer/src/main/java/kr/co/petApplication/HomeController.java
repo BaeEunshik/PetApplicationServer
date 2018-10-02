@@ -145,8 +145,7 @@ public class HomeController {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}	
-				
+				}
 				dao.insertStoreImage(origName, saveFileName, id);
 			}
 		}

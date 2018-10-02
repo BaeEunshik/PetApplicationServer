@@ -32,4 +32,10 @@ public interface Dao {
 	public void deleteBookMark(long store_id, long member_id);
 	public Bookmark getBookMarkList(long store_id, long member_id);
 	public ArrayList<Bookmark> getBookmarkStoreId(long member_id);
+	
+	//Web Project
+	public Integer login(String login_id,String login_pw);
+	public Member getMemberInfo(String login_id,String login_pw);
+	public ArrayList<Store> getStoreAll();
+	public ArrayList<Store> getStoreFromAttr();
 }

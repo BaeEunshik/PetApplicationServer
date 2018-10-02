@@ -98,4 +98,20 @@ update store set score_sum=score_sum+#{param2}, score_count=score_count+1 where 
 delete from bookmark where store_id=#{param1} and member_id=#{param2}
 </delete>
 
+
+<!-- Web Project -->
+
+<select id="login" resultType="Integer">
+	select count(*) from member where login_id=#{param1} and login_pw=#{param2}
+</select>
+
+<select id="getMemberInfo" resultType="kr.co.petApplication.dto.Member">
+	select * from member where login_id=#{param1} and login_pw=#{param2}
+</select>
+
+<select id="getStoreAll" resultType="kr.co.petApplication.dto.Store">
+	select * from store 
+</select>
+
+<!-- Web Project -->
 </mapper>
