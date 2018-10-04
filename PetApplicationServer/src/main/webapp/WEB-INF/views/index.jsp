@@ -177,10 +177,10 @@
 								<select name="selectPlace" id="selectPlace" style="height:38px;">
 									<option hidden value="0">장소</option>
 									<%for (int i = 0 ; i < Global.CATEGORY_GENERAL_STR_ARR.length ; i++ ) { %>
-										<option value=<%=i %>><%= Global.CATEGORY_GENERAL_STR_ARR[i]%></option>
+										<option value=<%=i+1 %>><%= Global.CATEGORY_GENERAL_STR_ARR[i]%></option>
 									<%} %>
 									<%for (int i = 0 ; i < Global.CATEGORY_SPECIAL_STR_ARR.length ; i++ ) { %>
-										<option value=<%=Global.CATEGORY_GENERAL_STR_ARR.length + i %>><%= Global.CATEGORY_SPECIAL_STR_ARR[i]%></option>
+										<option value=<%=Global.CATEGORY_GENERAL_STR_ARR.length + i+1 %>><%= Global.CATEGORY_SPECIAL_STR_ARR[i]%></option>
 									<%} %>							
 								</select>
 							</div>
