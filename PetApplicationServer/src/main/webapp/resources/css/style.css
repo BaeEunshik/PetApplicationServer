@@ -305,7 +305,7 @@ nav.shop a.nav_member {
 	width: 400px;
 	margin: 0 auto;
 	padding-top: 20px;
-	padding-bottom: 20px;
+	padding-bottom: 30px;
 }
 .filter_box .selectBox{
 	float: left;
@@ -355,9 +355,6 @@ nav.shop a.nav_member {
 	background-color: #fff;
 	border: none;
 	background-image: url(../source/close.png);
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center center;
 }
 .login_container .login_box h2 {
 	height: 80px;line-height: 80px;
@@ -483,9 +480,6 @@ nav.shop a.nav_member {
 	background-color: #fff;
 	border: none;
 	background-image: url(../source/close.png);
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center center;
 }
 
 
@@ -548,8 +542,8 @@ nav.shop a.nav_member {
 /* Footer */
 /* ------------------------------------------------------------------------ */
 .footer {
-	height: 250px;
-	margin-top: 50px;
+	height: 200px;
+	margin-top: 100px;
 	background-color: #f39c12;
 }
 

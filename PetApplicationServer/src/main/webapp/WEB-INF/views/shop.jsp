@@ -1,15 +1,21 @@
+<%@page import="kr.co.petApplication.dto.Bookmark"%>
+<%@page import="kr.co.petApplication.dto.Member"%>
 <%@page import="kr.co.petApplication.dto.StoreData"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
 	pageEncoding="UTF-8"%>
 <%
+	//멤버
+	Member login_member = (Member)session.getAttribute("login_member");
+	//북마크
+	Bookmark bookmark = (Bookmark)request.getAttribute("bookmark");
 	//장소 객체
 	StoreData item = (StoreData)request.getAttribute("item");
-	// 점수
+	//점수
 	double result = ((double)item.getStore().getScore_sum())/((double)item.getStore().getScore_count());
-   result = Math.ceil(result*10d) / 10d;
-   if (Double.isNaN(result)) {
-	   result = 0.0;
-   }
+	result = Math.ceil(result*10d) / 10d;
+	if (Double.isNaN(result)) {
+		result = 0.0;
+	}
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -31,7 +37,7 @@
 	<link rel="stylesheet" href="resources/css/jquery.timepicker.css">
 
 	<link rel="stylesheet" type="text/css" href="resources/plugin/slick/slick.css"/>
-   <link rel="stylesheet" type="text/css" href="resources/plugin/slick/slick-theme.css"/>
+  	<link rel="stylesheet" type="text/css" href="resources/plugin/slick/slick-theme.css"/>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -41,82 +47,62 @@
 	<script type="text/javascript" src="resources/js/script.js"></script>
 
 	<script type="text/javascript" src="resources/plugin/slick/slick.min.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDA6LRonlMWbg5selHc5ayH6UQUKNnKoVg&sensor=false"></script>
 	<script type="text/javascript">
 		function setGoogleMap() {
-		  /*
-		  http://openapi.map.naver.com/api/geocode.php?key=f32441ebcd3cc9de474f8081df1e54e3&encoding=euc-kr&coord=LatLng&query=서울특별시 노원구 섬밭로 258
-		  위의 링크에서 뒤에 주소를 적으면 x,y 값을 구할수 있습니다.
-		  */
-		  var Y_point = 37.6388235; // Y 좌표
-		  var X_point = 127.0647555; // X 좌표
-		  var zoomLevel = 17; // 첫 로딩시 보일 지도의 확대 레벨
-		  var markerTitle = "토다이 중계점"; // 현재 위치 마커에 마우스를 올렸을때 나타나는 이름
-		  var markerMaxWidth = 300; // 마커를 클릭했을때 나타나는 말풍선의 최대 크기
-
-		  // 말풍선 내용
-		  var contentString = '<div id="content">' +
-		  '<div id="siteNotice">' +
-		  '</div>' +
-		  '<h3 id="firstHeading" class="firstHeading">토다이 중계점</h3>' +
-		  '<div id="bodyContent">' +
-		  '<p>서울 노원구 섬밭로 258 건영백화점 4층<br />' +
-		  'Tel. Tel 02) 3391-7888</p>' +
-		  '</div>' +
-		  '</div>';
-
-		  var myLatlng = new google.maps.LatLng(Y_point, X_point);
-		  var mapOptions = {
-		  zoom: zoomLevel,
-		  center: myLatlng,
-		  mapTypeId: google.maps.MapTypeId.ROADMAP
-		  }
-		  var map = new google.maps.Map(document.getElementById('map_view'), mapOptions);
-
-		  var marker = new google.maps.Marker({
-		  position: myLatlng,
-		  map: map,
-		  title: markerTitle
-		  });
-
-		  var infowindow = new google.maps.InfoWindow(
-		  {
-		  content: contentString,
-		  maxWidth: markerMaxWidth
-		  }
-		  );
-
-		  google.maps.event.addListener(marker, 'click', function() {
-		  infowindow.open(map, marker);
-		  });
-	  }
-	  $(document).ready(function() {
-	   setGoogleMap();
+		 
+			var Y_point = <%=item.getStore().getLatitude()%>; // Y 좌표
+			var X_point = <%=item.getStore().getLongitude()%>;  // X 좌표
+			var zoomLevel = 17; // 첫 로딩시 보일 지도의 확대 레벨
+			var markerTitle = "<%=item.getStore().getName()%>"; 
+			// 현재 위치 마커에 마우스를 올렸을때 나타나는 이름
+			var markerMaxWidth = 300; // 마커를 클릭했을때 나타나는 말풍선의 최대 크기
+			
+			var myLatlng = new google.maps.LatLng(Y_point, X_point);
+			var mapOptions = {
+				zoom: zoomLevel,
+				center: myLatlng,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			}
+			var map = new google.maps.Map(document.getElementById('map_view'), mapOptions);
+			var marker = new google.maps.Marker({
+				position: myLatlng,
+				map: map,
+				title: markerTitle
+			});
+			/* var infowindow = new google.maps.InfoWindow({
+				maxWidth: markerMaxWidth
+			});
+			google.maps.event.addListener(marker, 'click', function() {
+				infowindow.open(map, marker);
+			}); */
+		}
+		$(document).ready(function() {
+			setGoogleMap();
 		});
+		
 	  $(document).ready(function(){
 	    $('.gallery_container').slick({
-
+	
 	       	slidesToShow: 6,
-  				slidesToScroll: 1,
-  				infinite: false,
-  				speed: 100,
-  				edgeFriction: 0.1,
-  				centerMode: false,
-  				responsive: [
-  					{
-	         		breakpoint: 1500,
-	         		settings: { slidesToShow: 5 }
-	    		 	},
-  				 	{
-	         		breakpoint: 1024,
-	         		settings: { slidesToShow: 4 }
-	    		 	},
-	  				{
-	        		breakpoint: 960,
-	        		settings: { slidesToShow: 3 }
-	    			}
-    			]
-
+			slidesToScroll: 1,
+			infinite: false,
+			speed: 100,
+			edgeFriction: 0.1,
+			centerMode: false,
+			responsive: [{
+	       		breakpoint: 1500,
+	       		settings: { slidesToShow: 5 }
+	  		 	},
+				 	{
+	       		breakpoint: 1024,
+	       		settings: { slidesToShow: 4 }
+	  		 	},
+					{
+	      		breakpoint: 960,
+	      		settings: { slidesToShow: 3 }
+			}]
+	
 	    });
 	  });
 	</script>
@@ -164,26 +150,37 @@
 
 		<div class="shop_info">
 			<div class="shop_info_header">
-
-				<div>
-					<h3>
-						<%= item.getStore().getName() %>
-						<span class="point">
-						<%= result %>
-						</span>
-					</h3>
-				</div>
-
-				<div class="item_counts clearfix">
-					<div class="viewContainer">
-						<p>10</p>
+				<div class="info_header_left">
+					<div>
+						<h3>
+							<%= item.getStore().getName() %>
+							<span class="point">
+							<%= result %>
+							</span>
+						</h3>
 					</div>
-					<div class="reviewContainer">
-						<p>10</p>
+	
+					<div class="item_counts clearfix">
+						<div class="viewContainer">
+							<p>10</p>
+						</div>
+						<div class="reviewContainer">
+							<p>10</p>
+						</div>
+	
 					</div>
-
 				</div>
-
+				<div class="info_header_right">
+				 	<div class="btn_add_bookmark
+			 		<% if (bookmark != null) { %> 
+			 			on
+			 		<% } else { %> 
+			 			off
+			 		<% } %>
+				 	">
+				 	</div>
+					<p>북마크</p>
+				</div>
 			</div>
 			<div class="shop_info_content clearfix">
 				<div class="content_left">
@@ -244,10 +241,17 @@
 				
 			</style>
 			<div class="reviews">
-				<div class="review_header">
-					<h5>
-						리뷰 (<%= item.getReviews().size() %>)
-					</h5>
+				<div class="review_header clearfix">
+					<div class="review_counts">
+						<h5>
+							리뷰 (<%= item.getReviews().size() %>)
+						</h5>
+					</div>
+					<div class="add_review">
+						<a class="btn_add_review" href="review.do">
+							리뷰 작성
+						</a>
+					</div>
 				</div>
 
 				
@@ -289,7 +293,6 @@
 
 		<!-- Footer -->
 		<div class="footer">
-			FOOTER
 		</div>
 		<!-- Footer -->
 	</div>

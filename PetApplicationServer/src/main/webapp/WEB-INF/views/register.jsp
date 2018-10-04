@@ -304,7 +304,6 @@
 
 		<!-- Footer -->
 		<div class="footer">
-			FOOTER
 		</div>
 		<!-- Footer -->
 	</div>

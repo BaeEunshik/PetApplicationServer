@@ -4,13 +4,20 @@
 <%@page import="kr.co.petApplication.dto.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
 	pageEncoding="UTF-8"%>
-<%
+<%	
 	String fail = (String)request.getAttribute("fail");
 	System.out.println(fail);
 	Member login_member = (Member)session.getAttribute("login_member");
-	//검색시 새로 세팅
+	//검색 시 새로 세팅
 	ArrayList<StoreData> items = (ArrayList<StoreData>)request.getAttribute("items");
 	Integer isSearched = (Integer)request.getAttribute("search");
+	//Bookmark
+	ArrayList<StoreData> bookmarkItems = (ArrayList<StoreData>)request.getAttribute("bookmarkItems");
+	if(bookmarkItems != null){
+		System.out.println("널아님");
+	}else{
+		System.out.println("널");
+	}
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -54,7 +61,6 @@
 		//검색
 		$(".btn_search").click(function(){
 			$("#search_form").submit();
-			
 		});
 		
 	});
@@ -137,7 +143,7 @@
 			<!-- TITLE -->
 			<!-- container -->
 			<div class="container">
-				<form action="search.do" method="post" id="search_form">
+				<form action="search.do" method="get" id="search_form">
 					<!-- searchBox -->
 					<div class="searchBox">
 						<div class="input_box clearfix">
@@ -161,9 +167,9 @@
 							<div class="selectBox size">
 								<select name="selectSize" id="selectSize" style="height:38px;">
 									<option hidden value="0">크기</option>
-									<option value="1">대형견</option>
+									<option value="1">소형견</option>
 									<option value="2">중형견</option>
-									<option value="3">소형견</option>
+									<option value="3">대형견</option>
 								</select>
 							</div>
 
@@ -237,7 +243,6 @@
 
 		<!-- Footer -->
 		<div class="footer">
-			FOOTER
 		</div>
 		<!-- Footer -->
 	</div>
@@ -333,11 +338,76 @@
 				</li>
 			</ol>
 		</div>
+		
+		<style> 
+			.bookmark_list .menu_item{
+				height: 80px;padding: 5px 0 5px 5px;
+			}
+			.bookmark_list .menu_item .btn_bookmark_info{
+				
+			}
+			.bookmark_list .menu_item .bookmark_picture{
+				float: left;
+				height: 80px;width: 80px;
+				border: 1px dotted black;
+				background-repeat: no-repeat;
+				background-position: center center;
+				-webkit-background-size: cover;
+				background-size: cover;
+			}
+			.bookmark_list .menu_item .bookmark_content{
+				float: left;
+				height: 80px;
+			}
+			.bookmark_contents .bookmark_name,
+			.bookmark_contents .bookmark_point {
+				float: left;
+				font-size: 20px;
+				line-height: 80px;
+			}
+			.bookmark_contents .bookmark_name{
+				padding-left: 10px;
+				padding-right: 10px;
+			}
+			.bookmark_contents .bookmark_point{
+				color: #f39c12;
+			}
+		</style>
+		
 		<div class="menu_items">
+			<ul class="bookmark_list">
+			<%if(bookmarkItems != null){ %>
+				<%for(int i = 0; i < bookmarkItems.size(); i++){ %>
+				<li class="menu_item clearfix">
+					<a class="btn_bookmark_info" href="shop.do?id=<%=bookmarkItems.get(i).getStore().getId()%>">
+						<div class="bookmark_picture" 
+							style="background-image: url('resources/upload/<%= bookmarkItems.get(i).getImages().get(0).getSavedName() %>');">
+						</div>
+						<div class="bookmark_contents clearfix">
+							<p class="bookmark_name"><%= bookmarkItems.get(i).getStore().getName()%></p>
+							<p class="bookmark_point">
+								<% 
+									double result = ((double)bookmarkItems.get(i).getStore().getScore_sum()) / ((double)bookmarkItems.get(i).getStore().getScore_count());
+									result = Math.ceil(result*10d) / 10d;
+									if (Double.isNaN(result)) {
+										result = 0.0;
+									}
+								%>
+								<%= result %>
+							</p>
+						</div>
+					</a>
+				</li>
+				<%} %>
+			<%} %>
+			</ul>
 			
+			<ul class="registerd_list">
+				
+			</ul>
 		</div>
 		<div class="logout_box">
-			<a href="logout.do">logout</a>
+			<a href="logout.do" class="btn_logout">logout</a>
 		</div>
 	</div>
 	<!-- MEMBER CONTAINER LAYER -->

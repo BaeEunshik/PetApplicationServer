@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.gson.Gson;
 
 import kr.co.petApplication.dao.Dao;
+import kr.co.petApplication.dto.Bookmark;
 import kr.co.petApplication.dto.ImageFile;
 import kr.co.petApplication.dto.Member;
 import kr.co.petApplication.dto.Review;
@@ -40,47 +41,55 @@ public class WebController {
 		return "redirect:home.do";
 	}
 	@RequestMapping("home.do")
-	public String home(HttpServletRequest request,Model model) {
+	public String home(HttpServletRequest request,RedirectAttributes redirectAttributes,Model model) {
+		
+		//List items
 		Dao DAO = sqlSession.getMapper(Dao.class);
-	
 		ArrayList<Store> stores = DAO.getStoreAll();
 		ArrayList<StoreData> items = new ArrayList<StoreData>();
-		
 		for (int i = 0; i < stores.size(); i++) {
 			ArrayList<ImageFile> images = DAO.getImageByStoreId(stores.get(i).getId());
 			ArrayList<Review> reviews = DAO.getReviewById(stores.get(i).getId());
-			
 			StoreData storeData = new StoreData(stores.get(i), images,reviews);
 			items.add(storeData);
 		}
-		
 		model.addAttribute("items",items);
+		
+		//Bookmark items
+		HttpSession httpSession = request.getSession();
+		Member member = (Member)httpSession.getAttribute("login_member");
+		if(member != null) {
+			model.addAttribute("bookmarkItems", getBookmarkStores(member.getId()));
+		}
 		
 		return "index";
 	}
+	
 	@RequestMapping("shop.do")
 	public String shop(HttpServletRequest request,Model model) {
 		
-		Dao dao = sqlSession.getMapper(Dao.class);
-		
-		String id = request.getParameter("id");
-		
-		dao.updateStoreHit(Long.parseLong(id));//조회수 증가
-		
-		Store store = dao.getStoreById(Long.parseLong(id));
-		ArrayList<ImageFile> images = dao.getImageByStoreId(Long.parseLong(id));
-		ArrayList<Review> reviews = dao.getReviewById(Long.parseLong(id));
+		//Item
+		Dao DAO = sqlSession.getMapper(Dao.class);
+		String shopId = request.getParameter("id");
+		DAO.updateStoreHit(Long.parseLong(shopId));
+		Store store = DAO.getStoreById(Long.parseLong(shopId));
+		ArrayList<ImageFile> images = DAO.getImageByStoreId(Long.parseLong(shopId));
+		ArrayList<Review> reviews = DAO.getReviewById(Long.parseLong(shopId));
 		ArrayList<Member> members = new ArrayList<Member>();
-		
 		for (int i = 0; i < reviews.size(); i++) {
-			Member member = dao.getMemberByReview(reviews.get(i).getMember_id());
+			Member member = DAO.getMemberByReview(reviews.get(i).getMember_id());
 			members.add(member);
 		}
-		
 		StoreData storeData = new StoreData(store,images,reviews,members);
-		
 		model.addAttribute("item",storeData);
 		
+		//bookmark
+		HttpSession httpSession = request.getSession();
+		Member member = (Member)httpSession.getAttribute("login_member");
+		if(member != null) {
+			Bookmark bookmark = DAO.getBookMarkList(Long.parseLong(shopId), member.getId());
+			model.addAttribute("bookmark",bookmark);
+		}
 		return "shop";
 	}
 	@RequestMapping("register.do")
@@ -95,19 +104,19 @@ public class WebController {
 		
 		Dao DAO = sqlSession.getMapper(Dao.class);
 		
-		Integer count = DAO.login(login_id, login_pwd);
+		Integer isLogin = DAO.login(login_id, login_pwd);
 		
-		if (count > 0) {
+		if (isLogin != 0) {
 			HttpSession httpSession = request.getSession();
 			Member login_member = DAO.getMemberInfo(login_id, login_pwd);
 			httpSession.setAttribute("login_member", login_member);
 			
-			return "redirect:home.do";
 		} else {
 			redirectAttributes.addAttribute("fail", "1");
-			return "redirect:home.do";
 		}		
+		return "redirect:home.do";
 	}
+	
 	@RequestMapping("logout.do")
 	public String logout(HttpServletRequest request) {
 		HttpSession httpSession = request.getSession();
@@ -116,7 +125,7 @@ public class WebController {
 		return "redirect:home.do";
 	}
 	
-	//TODO: 회원가입
+	//TODO : join
 	@RequestMapping("join_ok.do")
 	public String joinOk(HttpServletRequest request,RedirectAttributes redirectAttributes) {
 		Dao dao = sqlSession.getMapper(Dao.class);
@@ -145,14 +154,18 @@ public class WebController {
 	@RequestMapping("search.do")
 	public String search(HttpServletRequest request, Model model) {
 		
-		//
 		String searchText = request.getParameter("searchText");
-		String location = request.getParameter("selectLocation");
-		String size = request.getParameter("selectSize");
-		String place = request.getParameter("selectPlace");
+		String strLocation = request.getParameter("selectLocation");
+		String strSize = request.getParameter("selectSize");
+		String strPlace = request.getParameter("selectPlace");
+		
+		searchText = '%'+searchText+'%';
+		Integer location = Integer.parseInt(strLocation);
+		Integer size = Integer.parseInt(strSize);
+		Integer place = Integer.parseInt(strPlace);
 		
 		Dao DAO = sqlSession.getMapper(Dao.class);
-		ArrayList<Store> stores = DAO.getStoreFromAttr();
+		ArrayList<Store> stores = DAO.getStoreFromAttr(location, size, place, searchText);
 		ArrayList<StoreData> items = new ArrayList<StoreData>();
 		
 		for (int i = 0; i < stores.size(); i++) {
@@ -162,27 +175,38 @@ public class WebController {
 			StoreData tmpData = new StoreData(stores.get(i), images, reviews);
 			items.add(tmpData);
 		}
-		
 		model.addAttribute("items",items);
-		
-		// home.do 에 있던 것 
-		/* Dao DAO = sqlSession.getMapper(Dao.class);
-		
-		ArrayList<Store> stores = DAO.getStoreAll();
-		ArrayList<StoreData> items = new ArrayList<StoreData>();
-		
-		for (int i = 0; i < stores.size(); i++) {
-			ArrayList<ImageFile> images = DAO.getImageByStoreId(stores.get(i).getId());
-			ArrayList<Review> reviews = DAO.getReviewById(stores.get(i).getId());
-			
-			StoreData storeData = new StoreData(stores.get(i), images,reviews);
-			items.add(storeData);
-		}
-		*/
-		//model.addAttribute("items",items);
 		model.addAttribute("search",1);
 		
 		return "index";
+	}
+
+	
+/*************************************************************************
+
+	METHOD
+
+*************************************************************************/
+	public ArrayList<StoreData> getBookmarkStores(long member_id){
+		Dao DAO = sqlSession.getMapper(Dao.class);
+		
+		ArrayList<Bookmark> bookmarks = DAO.getBookmarkStoreId(member_id);
+		ArrayList<StoreData> bookmarkItems = new ArrayList<StoreData>();
+		
+		if(bookmarks != null) {
+			for (int i = 0; i < bookmarks.size(); i++) {
+				
+				long tmpStoreId = bookmarks.get(i).getStore_id();
+				
+				ArrayList<ImageFile> tmpImages = DAO.getImageByStoreId(tmpStoreId);
+				ArrayList<Review> tmpReviews = DAO.getReviewById(tmpStoreId);
+				Store tmpStore = DAO.getStoreById(tmpStoreId);
+				
+				StoreData tmpItem = new StoreData(tmpStore,tmpImages,tmpReviews);
+				bookmarkItems.add(tmpItem);
+			}
+		}
+		return bookmarkItems;
 	}
 	
 }

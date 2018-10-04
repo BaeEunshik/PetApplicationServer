@@ -37,5 +37,5 @@ public interface Dao {
 	public Integer login(String login_id,String login_pw);
 	public Member getMemberInfo(String login_id,String login_pw);
 	public ArrayList<Store> getStoreAll();
-	public ArrayList<Store> getStoreFromAttr();
+	public ArrayList<Store> getStoreFromAttr(Integer location, Integer size, Integer place, String searchText);
 }

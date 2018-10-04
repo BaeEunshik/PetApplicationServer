@@ -113,5 +113,17 @@ delete from bookmark where store_id=#{param1} and member_id=#{param2}
 	select * from store 
 </select>
 
+<select id="getStoreFromAttr" resultType="kr.co.petApplication.dto.Store">
+	select * from store where dog_size <![CDATA[>=]]> #{param2}
+	<if test="param1 != 0">
+		and sigungu=#{param1}
+	</if>
+	<if test="param3 != 0">
+		and category=#{param3}
+	</if>
+		and name like #{param4}
+</select>
+
 <!-- Web Project -->
+
 </mapper>
