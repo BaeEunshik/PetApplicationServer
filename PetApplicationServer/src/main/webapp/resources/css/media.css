@@ -166,6 +166,9 @@
 *************************************************************************/
 
 	/***** BASIC CSS *****/
+	.searched_items p{
+		color: #333;
+	}
 	.item_counts .viewContainer{
 		background-image: url(../source/view.png);
 	}
@@ -229,10 +232,9 @@
 		margin-bottom: 2px;
 	}
 	.infobox .left .item_location{
-		margin-top: 2px;
-		height: 15px;
-		font-size: 15px;
-		line-height: 15px;
+		height: 14px;
+		font-size: 14px;
+		line-height: 14px;
 	}
 	.item_counts{
 		margin-top: 3px;
@@ -243,14 +245,14 @@
 	}
 	.item_counts .viewContainer,
 	.item_counts .reviewContainer{
-		height: 15px;
-		line-height: 15px;
-		font-size: 15px;
+		height: 14px;
+		line-height: 14px;
+		font-size: 14px;
 		padding-left: 17px;
 		margin-right: 10px;
 
-		-webkit-background-size: 15px;
-		background-size: 15px;
+		-webkit-background-size: 14px;
+		background-size: 14px;
 		background-position: 0 center;
 		background-repeat: no-repeat;
 	}
@@ -279,9 +281,9 @@
 		margin-bottom: 2px;
 	}
 	.infobox .left .item_location{
-		height: 14px;
-		font-size: 14px;
-		line-height: 14px;
+		height: 13px;
+		font-size: 13px;
+		line-height: 13px;
 	}
 	.item_counts .viewContainer,
 	.item_counts .reviewContainer{
@@ -361,12 +363,12 @@
 		margin-bottom: 2px;
 	}
 	.infobox .left .item_location{
-		height: 15px;
-		font-size: 15px;
-		line-height: 15px;
+		height: 14px;margin-top: 3px;
+		font-size: 14px;
+		line-height: 14px;
 	}
 	.item_counts{
-		margin-top: 5px;
+		margin-top: 3px;
 	}
 	.item_counts div{
 		float: left;
@@ -374,14 +376,14 @@
 	}
 	.item_counts .viewContainer,
 	.item_counts .reviewContainer{
-		height: 15px;
-		line-height: 15px;
-		font-size: 15px;
+		height: 14px;
+		line-height: 14px;
+		font-size: 14px;
 		padding-left: 17px;
 		margin-right: 10px;
 
-		-webkit-background-size: 15px;
-		background-size: 15px;
+		-webkit-background-size: 14px;
+		background-size: 14px;
 		background-position: 0 center;
 		background-repeat: no-repeat;
 	}
@@ -447,12 +449,12 @@
 		margin-bottom: 2px;
 	}
 	.infobox .left .item_location{
-		height: 15px;
-		font-size: 15px;
-		line-height: 15px;
+		height: 14px;margin-top: 3px;
+		font-size: 14px;
+		line-height: 14px;
 	}
 	.item_counts{
-		margin-top: 5px;
+		margin-top: 3px;
 	}
 	.item_counts div{
 		float: left;
@@ -460,14 +462,14 @@
 	}
 	.item_counts .viewContainer,
 	.item_counts .reviewContainer{
-		height: 15px;
-		line-height: 15px;
-		font-size: 15px;
+		height: 14px;
+		line-height: 14px;
+		font-size: 14px;
 		padding-left: 17px;
 		margin-right: 10px;
 
-		-webkit-background-size: 15px;
-		background-size: 15px;
+		-webkit-background-size: 14px;
+		background-size: 14px;
 		background-position: 0 center;
 		background-repeat: no-repeat;
 	}

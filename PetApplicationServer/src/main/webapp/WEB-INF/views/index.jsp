@@ -89,7 +89,7 @@
 
 					<!-- 로그아웃 상태의 경우 생성 x -->
 					<%if(login_member != null){%>
-					<a href="register.do">REGISTER</a>
+					<li><a href="register.do">REGISTER</a></li>
 					<%}%>
 					<!-- 로그아웃 상태의 경우 생성 x -->
 
@@ -338,41 +338,6 @@
 				</li>
 			</ol>
 		</div>
-		
-		<style> 
-			.bookmark_list .menu_item{
-				height: 80px;padding: 5px 0 5px 5px;
-			}
-			.bookmark_list .menu_item .btn_bookmark_info{
-				
-			}
-			.bookmark_list .menu_item .bookmark_picture{
-				float: left;
-				height: 80px;width: 80px;
-				border: 1px dotted black;
-				background-repeat: no-repeat;
-				background-position: center center;
-				-webkit-background-size: cover;
-				background-size: cover;
-			}
-			.bookmark_list .menu_item .bookmark_content{
-				float: left;
-				height: 80px;
-			}
-			.bookmark_contents .bookmark_name,
-			.bookmark_contents .bookmark_point {
-				float: left;
-				font-size: 20px;
-				line-height: 80px;
-			}
-			.bookmark_contents .bookmark_name{
-				padding-left: 10px;
-				padding-right: 10px;
-			}
-			.bookmark_contents .bookmark_point{
-				color: #f39c12;
-			}
-		</style>
 		
 		<div class="menu_items">
 			<ul class="bookmark_list">

@@ -172,12 +172,23 @@ $(function(){
 			document.documentElement.style.overflowY = '';
 			document.documentElement.style.overflowX = '';
 		}
-		// MENU CLICK
-		$(".member_menu ol.my_menu a").bind('click',function(event){
-				$(".member_menu a").removeClass("active");
-				$(this).addClass("active");
-				event.preventDefault
+		// MEMBER MENU CLICK
+		$(".member_menu ol.my_menu .bookmark a").bind('click',function(event){
+			$(".member_menu .myList a").removeClass("active");
+			$(this).addClass("active");
+			$(".menu_items .bookmark_list").removeClass("hidden");
+			$(".menu_items .registerd_list").addClass("hidden");
+			event.preventDefault;
 		});
+		$(".member_menu ol.my_menu .myList a").bind('click',function(event){
+			$(".member_menu .bookmark a").removeClass("active");
+			$(this).addClass("active");
+			$(".menu_items .registerd_list").removeClass("hidden");
+			$(".menu_items .bookmark_list").addClass("hidden");
+			event.preventDefault;
+		});
+		
+		
 		// CLOSE BUTTON
 		$(".member_menu .close > button").bind("click",function(){
 				$(".overlay").trigger("click");

@@ -453,6 +453,8 @@ nav.shop a.nav_member {
 	background-color: #fff;
 	border-radius: 2px;
 }
+
+/* member_menu */
 .member_menu{
 	position: relative;
 }
@@ -507,15 +509,53 @@ nav.shop a.nav_member {
 	color: #f39c12;
 }
 
+/* menu_items */
+.menu_items .bookmark_list .menu_item{
+	height: 80px;padding: 5px 0 5px 5px;
+}
+.menu_items .bookmark_list .menu_item .btn_bookmark_info{
+	color: #333;
+}
+.menu_items .bookmark_list .menu_item .btn_bookmark_info:active{
+	color: #333;
+	text-decoration: none;
+}
+.menu_items .bookmark_list .menu_item .bookmark_picture{
+	float: left;
+	height: 80px;width: 80px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	-webkit-background-size: cover;
+	background-size: cover;
+}
+.menu_items .bookmark_list .menu_item .bookmark_content{
+	float: left;
+	height: 80px;
+}
+.menu_items .bookmark_contents .bookmark_name,
+.menu_items .bookmark_contents .bookmark_point {
+	float: left;
+	font-size: 20px;
+	line-height: 80px;
+}
+.menu_items .bookmark_contents .bookmark_name{
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.menu_items .bookmark_contents .bookmark_point{
+	color: #f39c12;
+}
+
+/* logout_box */
 .logout_box{
 	text-align: center;
 	position: absolute;
-	bottom: 5px;
+	bottom: 0;
 	width: 100%;
 }
 .logout_box .btn_logout{
 	display: block;
-	padding: 5px;
+	padding: 5px 0 10px;
 	color: #000;
 }
  .btn_logout{color: #fff; text-decoration: none; outline: none}
@@ -741,52 +781,52 @@ nav.shop a.nav_member {
 
 
 	/* TABLE MEDIA QUERY */
-		@media only screen and (min-width: 961px){
-			table.register_table tr > th{
-					width:180px;
-					text-align: left;
-			}
-		}
-		@media only screen and (max-width: 960px){
-			table.register_table tr > th{
-					text-align: left;
-			}
-		}
-		@media only screen and (min-width: 401px) and (max-width: 767px){
-			table.register_table tr > th{
-					width:160px;
-			}
-		}
-		/* MOBILE - FLOAT TABLE */
-		@media only screen and (max-width: 767px){
-			table.register_table tr > th{
+	@media only screen and (min-width: 961px){
+		table.register_table tr > th{
+				width:180px;
 				text-align: left;
-				padding: 5px 0 0;
-			}
+		}
+	}
+	@media only screen and (max-width: 960px){
+		table.register_table tr > th{
+				text-align: left;
+		}
+	}
+	@media only screen and (min-width: 401px) and (max-width: 767px){
+		table.register_table tr > th{
+				width:160px;
+		}
+	}
+	/* MOBILE - FLOAT TABLE */
+	@media only screen and (max-width: 767px){
+		table.register_table tr > th{
+			text-align: left;
+			padding: 5px 0 0;
+		}
 
-			table.register_table tr > th,
-			table.register_table tr > td{
-				float: left;
-				width: 100%;
-			}
+		table.register_table tr > th,
+		table.register_table tr > td{
+			float: left;
+			width: 100%;
 		}
+	}
 	/* REGISTER TABLE ELEMENT MEDIA QUERY */
-		@media only screen and (max-width: 400px) {
-			.phone_container > .phone_box {
-				float:none;
-				width: 100%;
-				margin:5px 0;
-			}
-			.td_box span.table_flow_icon{
-				display: block;float: none;height: 10px;line-height: 10px;text-align: left;
-			}
-			.open_time_container{
-				padding: 10px;
-			}
-			.open_time_container .open_time_item{
-				float: none;
-				width: 100%;
-				margin:5px 0;
-				text-align: center;
-			}
+	@media only screen and (max-width: 400px) {
+		.phone_container > .phone_box {
+			float:none;
+			width: 100%;
+			margin:5px 0;
 		}
+		.td_box span.table_flow_icon{
+			display: block;float: none;height: 10px;line-height: 10px;text-align: left;
+		}
+		.open_time_container{
+			padding: 10px;
+		}
+		.open_time_container .open_time_item{
+			float: none;
+			width: 100%;
+			margin:5px 0;
+			text-align: center;
+		}
+	}
